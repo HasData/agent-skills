@@ -15,6 +15,12 @@ Pick `hasdata` when you're building an application or service that calls the API
 
 ## Install
 
+The fastest way (works with any agent harness that supports the [Agent Skills](https://agentskills.io/) format):
+
+```
+npx skills add hasdata/agent-skills
+```
+
 ### Claude Code
 
 ```
