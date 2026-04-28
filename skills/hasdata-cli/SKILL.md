@@ -1,7 +1,6 @@
 ---
 name: hasdata-cli
 description: Fetch real-time web data via the hasdata CLI. Use when the user wants search results, news, fact-checks, product or seller info, current prices, reviews, real-estate listings or sold comps, vacation rentals, local-business contact details, job postings, salary research, search trends, images, flights, social profiles, or to scrape any URL (HTML / markdown / AI-extracted JSON). Also use when the user asks to summarize a web page, ground a prompt with current information, verify a URL is live or render a JavaScript-heavy page, monitor a price over time, find a phone number or address for a business, build a competitor map, identify recent sold comparables, gather employer reviews, fan out a list of items to per-item details, or check what's being said online about a topic right now. Backed by Google, Bing, Amazon, Shopify, Zillow, Redfin, Airbnb, Yelp, YellowPages, Indeed, Glassdoor, Instagram, Google Maps / Trends / News / Images / Flights / Events APIs.
-homepage: https://github.com/HasData/hasdata-cli
 ---
 
 # hasdata

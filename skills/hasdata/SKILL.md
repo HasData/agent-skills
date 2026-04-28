@@ -1,7 +1,6 @@
 ---
 name: hasdata
 description: Use HasData to scrape any public web page, run real-time Google/Bing/Google-AI-Mode search queries, pull structured data from e-commerce, real-estate, jobs, maps, travel, and social platforms, or run async bulk-scraping and crawling jobs without managing proxies, browsers, or captchas. Reach for this skill when the user mentions web scraping, SERP/search results, Google Maps/Trends/Flights/Images, Amazon, Zillow, Redfin, Airbnb, Yelp, Indeed, Glassdoor, Instagram, Shopify, scraper jobs, website crawling, RAG/LLM data ingestion, lead/contact enrichment, or HasData itself.
-homepage: https://docs.hasdata.com/
 ---
 
 # HasData
