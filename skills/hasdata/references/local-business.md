@@ -6,6 +6,7 @@
 | `/scrape/google-maps/place` | Single place details |
 | `/scrape/google-maps/reviews` | Reviews for a place, paginated |
 | `/scrape/google-maps/photos` | Photo gallery |
+| `/scrape/google-maps/posts` | Owner-published posts (offers, events, announcements) |
 | `/scrape/google-maps/contributor-reviews` | All reviews by a Google reviewer |
 | `/scrape/yelp/search` | Yelp search |
 | `/scrape/yelp/place` | Yelp business detail |
@@ -66,6 +67,25 @@ def reviews(place_id=None, data_id=None, sort_by="newestFirst", token=None):
 | `sortBy` | `newestFirst`, `highestRating`, `lowestRating`, `mostRelevant`. |
 | `topicId` | Filter by review topic. |
 | `nextPageToken` | Cursor pagination. |
+
+## Google Maps Posts
+
+```python
+resp = requests.get(
+    "https://api.hasdata.com/scrape/google-maps/posts",
+    headers={"x-api-key": API_KEY},
+    params={"placeId": "ChIJ..."},      # or dataId="0x...:0x..."
+    timeout=300,
+)
+for p in resp.json().get("posts", []):
+    print(p["postedAt"], p["description"][:120], p.get("cta", {}).get("url"))
+```
+
+Either `placeId` **or** `dataId` is required. Optional: `hl` (UI language), `nextPageToken` (cursor pagination). 10 credits/call.
+
+Per-post fields (verified live): `postId`, `locationId`, `title`, `description`, `image`, `cta` (`label` + `url`), `createdAt` (ISO), `postedAt` (human-readable), `shareUrl`, `postUrl`. Response top-level: `posts`, `pagination`, `source`, `requestMetadata`.
+
+Posts surface current offers, holiday hours, events, and product launches the business is actively promoting. Cheaper signal than the homepage scrape, and `cta.url` is the canonical landing page.
 
 ## Yelp & YellowPages
 

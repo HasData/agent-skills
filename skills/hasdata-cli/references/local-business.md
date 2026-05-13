@@ -1,6 +1,6 @@
 # Local-business / maps reference
 
-Subcommands: `google-maps`, `google-maps-place`, `google-maps-reviews`, `google-maps-contributor-reviews`, `google-maps-photos`, `yelp-search`, `yelp-place`, `yellowpages-search`, `yellowpages-place`. 5 credits each.
+Subcommands: `google-maps`, `google-maps-place`, `google-maps-reviews`, `google-maps-contributor-reviews`, `google-maps-photos`, `google-maps-posts`, `yelp-search`, `yelp-place`, `yellowpages-search`, `yellowpages-place`. 5 credits each (10 for `google-maps-posts` and YellowPages).
 
 ---
 
@@ -48,6 +48,17 @@ hasdata google-maps-photos --place-id "ChIJ..." --raw
 
 Returns photo URLs by category (interior, exterior, food, etc.).
 
+## google-maps-posts (10 credits)
+
+```bash
+hasdata google-maps-posts --place-id "ChIJ..." [--hl en] [--next-page-token TOKEN] --raw \
+  | jq '.posts[] | {postedAt, description, cta, postUrl}'
+```
+
+Posts are the business-owner publications shown on a Maps listing: offers, events, holiday hours, announcements. Either `--place-id` **or** `--data-id` is required.
+
+Per-post fields (verified live): `postId`, `locationId`, `title`, `description`, `image`, `cta` (object with `label` + `url`), `createdAt` (ISO), `postedAt` (human-readable), `shareUrl`, `postUrl`. Use `pagination.nextPageToken` for older posts.
+
 ---
 
 ## yelp-search
@@ -94,6 +105,8 @@ hasdata yellowpages-place --url "https://www.yellowpages.com/atlanta-ga/mip/..."
 - **Local-guide credibility** — `google-maps-contributor-reviews --contributor-id X` shows everything a specific reviewer wrote, useful for filtering out shilling/fake reviewers when their pattern is suspicious.
 - **YellowPages for B2B niches** — service-business categories (plumbers, electricians, lawyers) are often better indexed by YellowPages than Yelp; try both when one comes up empty.
 - **Cross-platform reputation diff** — same business name + city via `yelp-search` and `google-maps` to compare ratings across platforms (gap often signals fake reviews on one).
+- **Promo / event surveillance** — `google-maps-posts --place-id X` surfaces current offers, holiday hours, and limited-time events the business is actively pushing. Cheaper signal than scraping the website, and the `cta.url` typically links to the canonical landing page.
+- **Detect a business about to relaunch / rebrand** — sudden burst of new `google-maps-posts` after months of silence usually precedes a re-grand-opening or ownership change.
 
 ## Common patterns
 

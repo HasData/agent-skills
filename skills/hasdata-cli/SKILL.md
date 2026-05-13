@@ -1,6 +1,6 @@
 ---
 name: hasdata-cli
-description: Fetch real-time web data via the hasdata CLI. Use when the user wants search results, news, fact-checks, product or seller info, current prices, reviews, real-estate listings or sold comps, vacation rentals, local-business contact details, job postings, salary research, search trends, images, flights, social profiles, or to scrape any URL (HTML / markdown / AI-extracted JSON). Also use when the user asks to summarize a web page, ground a prompt with current information, verify a URL is live or render a JavaScript-heavy page, monitor a price over time, find a phone number or address for a business, build a competitor map, identify recent sold comparables, gather employer reviews, fan out a list of items to per-item details, or check what's being said online about a topic right now. Backed by Google, Bing, Amazon, Shopify, Zillow, Redfin, Airbnb, Yelp, YellowPages, Indeed, Glassdoor, Instagram, Google Maps / Trends / News / Images / Flights / Events APIs.
+description: Fetch real-time web data via the hasdata CLI. Use when the user wants search results, news, fact-checks, product or seller info, current prices, reviews, real-estate listings or sold comps, hotel rates or vacation rentals, local-business contact details, business owner posts/offers, job postings, salary research, search trends, images, flights, YouTube videos or transcripts, channel stats, social profiles, or to scrape any URL (HTML / markdown / AI-extracted JSON). Also use when the user asks to summarize a YouTube video or web page, ground a prompt with current information, verify a URL is live or render a JavaScript-heavy page, monitor a price over time, find a phone number or address for a business, build a competitor map, identify recent sold comparables, gather employer reviews, fan out a list of items to per-item details, or check what's being said online about a topic right now. Backed by Google, Bing, YouTube, Amazon, Shopify, Zillow, Redfin, Airbnb, Booking, Yelp, YellowPages, Indeed, Glassdoor, Instagram, Google Maps / Trends / News / Images / Flights / Events APIs.
 ---
 
 # hasdata
@@ -30,17 +30,20 @@ Always pass `--raw` when piping to `jq` (skips pretty-print and TTY detection). 
 | AI Mode SERP | `google-ai-mode` |
 | Shopping / product prices | `google-shopping` (broad), `amazon-search` / `amazon-product` (Amazon), `shopify-products` (Shopify) |
 | Immersive product page | `google-immersive-product` |
-| Maps / places / reviews | `google-maps`, `google-maps-place`, `google-maps-reviews`, `google-maps-photos` |
+| Maps / places / reviews | `google-maps`, `google-maps-place`, `google-maps-reviews`, `google-maps-photos`, `google-maps-posts` |
 | Yelp / YellowPages local data | `yelp-search`, `yelp-place`, `yellowpages-search`, `yellowpages-place` |
-| Real-estate listings | `zillow-listing`, `redfin-listing`, `airbnb-listing` |
-| Real-estate single property deep dive | `zillow-property`, `redfin-property`, `airbnb-property` |
+| Real-estate listings (homes for sale/rent/sold) | `zillow-listing`, `redfin-listing` |
+| Real-estate single property deep dive | `zillow-property`, `redfin-property` |
+| Travel — short-term rentals | `airbnb-listing`, `airbnb-property` |
+| Travel — hotels / lodging | `booking-search`, `booking-place` |
+| Travel — flights | `google-flights` |
 | Jobs | `indeed-listing`, `indeed-job`, `glassdoor-listing`, `glassdoor-job` |
 | Bing search | `bing-serp` |
 | Trends | `google-trends` |
 | Images | `google-images` |
-| Flights | `google-flights` |
 | Short videos | `google-short-videos` |
 | Events | `google-events` |
+| YouTube search / video / channel / transcript | `youtube-search-api`, `youtube-video-api`, `youtube-channel-api`, `youtube-transcript-api` |
 | Instagram profile | `instagram-profile` |
 | Amazon seller | `amazon-seller`, `amazon-seller-products` |
 | **Scrape a specific URL** | `web-scraping` — supports JS rendering, proxies, markdown output, AI extraction, screenshots |
@@ -63,6 +66,10 @@ The user often won't ask for a SERP API or a scraper directly. Map these intents
 - **"Find me homes/apartments matching X criteria"** — `zillow-listing` / `redfin-listing` / `airbnb-listing` with the corresponding filters.
 - **"Recent sold comps near X"** — `zillow-listing --type sold --keyword "X" --days-on-zillow 12m`.
 - **"Track this product's price"** — Loop `amazon-product --asin X` on a schedule; persist `.price` to a file.
+- **"Summarize / cite this YouTube video"** — `youtube-transcript-api --v-param VID --raw | jq -r '.transcript[].snippet'` → feed to the summary prompt. Beats title/thumbnail-based guesses.
+- **"Find a hotel in $CITY for $DATES under $BUDGET"** — `booking-search --keyword $CITY --check-in-date X --check-out-date Y --adults 2 --children 0 --rooms 1 --price-max $BUDGET --sort priceLowestFirst`. For one specific property, `booking-place --url ...` returns the full room/rate matrix.
+- **"What's this channel pushing lately?"** — `youtube-channel-api --channel-id @handle --tab videos --raw | jq '.sections[].items[] | {title, publishedDate, views: .extractedViews}'`.
+- **"Does this business have an active offer / event?"** — `google-maps-posts --place-id X --raw | jq '.posts[] | {postedAt, description, cta}'`. Surfaces current promotions Google indexed.
 - **"What's trending around X?"** — `google-trends --q "X"` for relative interest; `google-news --q "X"` for headlines.
 - **"Find businesses near me that do X"** — `google-maps --q "X" --ll "@LAT,LNG,12z"` then fan out `google-maps-place` for contacts.
 - **"How does this look in country Y?"** — `--gl Y` on SERP commands, `--proxy-country Y` on `web-scraping`. Useful for geo-targeted SEO checks, geo-blocked content.
@@ -128,8 +135,10 @@ For real-estate / e-commerce results, the array shape is API-specific — read a
 - [`references/enrichment.md`](references/enrichment.md) — **person and company enrichment** (LinkedIn lookup, emails, HQ/funding/news, CSV-row enrichment, reverse-lookup) — the highest-leverage cross-API workflows
 - [`references/search.md`](references/search.md) — Google SERP / Bing / News / Trends flag catalog
 - [`references/web-scraping.md`](references/web-scraping.md) — `web-scraping` flags, JS scenarios, AI extraction
-- [`references/real-estate.md`](references/real-estate.md) — Zillow / Redfin / Airbnb filters and bracketed params
+- [`references/real-estate.md`](references/real-estate.md) — Zillow / Redfin filters and bracketed params
+- [`references/travel.md`](references/travel.md) — Airbnb / Booking / Google Flights (lodging + transport)
 - [`references/ecommerce.md`](references/ecommerce.md) — Amazon / Shopify
-- [`references/local-business.md`](references/local-business.md) — Maps / Yelp / YellowPages
+- [`references/local-business.md`](references/local-business.md) — Maps (search/place/reviews/photos/posts) / Yelp / YellowPages
 - [`references/jobs.md`](references/jobs.md) — Indeed / Glassdoor
+- [`references/youtube.md`](references/youtube.md) — search / video / channel / transcript
 - [`references/all-commands.md`](references/all-commands.md) — full subcommand index with credit costs

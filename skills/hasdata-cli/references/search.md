@@ -1,6 +1,8 @@
 # Search references
 
-Subcommands: `google-serp`, `google-serp-light`, `google-ai-mode`, `google-news`, `google-shopping`, `bing-serp`, `google-trends`, `google-images`, `google-events`, `google-short-videos`, `google-immersive-product`, `google-flights`.
+Subcommands: `google-serp`, `google-serp-light`, `google-ai-mode`, `google-news`, `google-shopping`, `bing-serp`, `google-trends`, `google-images`, `google-events`, `google-short-videos`, `google-immersive-product`.
+
+For `google-flights`, see `travel.md`.
 
 Run `hasdata <api> --help` for the live, authoritative flag set. Below are the commonly-used flags and example invocations.
 
@@ -90,17 +92,6 @@ hasdata google-images --q "QUERY" --raw | jq '.images_results[] | {title, origin
 hasdata google-events --q "concerts in austin" [--gl us] --raw | jq '.events_results[]'
 ```
 
-## google-flights (15 credits)
-
-```bash
-hasdata google-flights \
-  --departure-id "JFK" --arrival-id "LAX" \
-  --outbound-date 2026-06-15 --return-date 2026-06-22 \
-  --currency USD --raw | jq .
-```
-
-Round-trip vs. one-way controlled by presence/absence of `--return-date`.
-
 ## google-short-videos (10 credits) / google-immersive-product (5 credits)
 
 Less common — run `--help` to see flags when needed.
@@ -121,7 +112,6 @@ Less common — run `--help` to see flags when needed.
 - **Translate search intent** — `--hl de --gl de --q "the English query"` shows German-language ranking; useful for multi-locale SEO checks.
 - **Trends over time** — `google-trends --q "term1,term2"` (comma-separated, ≤5 terms) for relative interest curves. Better than guessing "is X popular now" from training data.
 - **Image-driven research** — `google-images --q "X"` to grab source URLs; pipe top results into `web-scraping` to read context.
-- **Flights without a travel API** — `google-flights` with `--departure-id`, `--arrival-id`, dates, and `--currency` for ad-hoc fare checks.
 - **Map-distance trick** — for "things near X", use `google-maps --ll "@LAT,LNG,Zz"` not a SERP query — much higher signal for proximity intent.
 - **Fact-check pricing** — when training data has stale prices for SaaS or subscription services, search and read the pricing page rather than answering from memory.
 

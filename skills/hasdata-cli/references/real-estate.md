@@ -1,6 +1,8 @@
 # Real-estate reference
 
-Subcommands: `zillow-listing`, `zillow-property`, `redfin-listing`, `redfin-property`, `airbnb-listing`, `airbnb-property` — 5 credits each.
+Subcommands: `zillow-listing`, `zillow-property`, `redfin-listing`, `redfin-property` — 5 credits each.
+
+For short-term rentals (Airbnb), hotels (Booking) and flights, see `travel.md`.
 
 `*-listing` is for filtered searches; `*-property` is a single-property deep dive.
 
@@ -102,22 +104,6 @@ hasdata redfin-listing --location "San Francisco, CA" --status forSale \
 hasdata redfin-property --url "https://www.redfin.com/CA/San-Francisco/.../home/12345" --raw
 ```
 
-## airbnb-listing
-
-```bash
-hasdata airbnb-listing --location "Lisbon, Portugal" \
-  --check-in 2026-06-15 --check-out 2026-06-22 \
-  --adults 2 --price-max 200 --raw
-```
-
-Run `--help` for the full filter set (room type, amenities, instant book, etc.).
-
-## airbnb-property
-
-```bash
-hasdata airbnb-property --url "https://www.airbnb.com/rooms/12345678" --raw
-```
-
 ---
 
 ## Non-obvious use cases
@@ -127,7 +113,7 @@ hasdata airbnb-property --url "https://www.airbnb.com/rooms/12345678" --raw
 - **Appraiser comp pull** — same trick, narrower square-footage and same year-built band.
 - **Motivated-seller signal** — `--type forSale --days-on-zillow 90` returns listings that have lingered. Often willing to negotiate.
 - **Pre-relocation neighborhood scan** — run the same `--type forRent` filter across 5–10 neighborhoods, dump rent distributions with `jq '.results[].price'`, eyeball cost differences before booking visits.
-- **STR-vs-LTR feasibility** — pair `airbnb-listing` for nightly rates with `zillow-listing --type forSale` for purchase price in the same area; compute gross yield client-side.
+- **STR-vs-LTR feasibility** — pair `airbnb-listing` (see `travel.md`) for nightly rates with `zillow-listing --type forSale` for purchase price in the same area; compute gross yield client-side.
 - **HOA filter** — `--hoa N` caps fee; useful for buyers who want max payment ceilings.
 - **School-driven house hunt** — `zillow-property` returns school ratings; filter `zillow-listing` results down by walking each property and keeping those with rating ≥ X.
 - **Open-houses this weekend** — Zillow tags open-house listings; check `.results[].openHouseTimes` for upcoming slots.
@@ -137,6 +123,4 @@ hasdata airbnb-property --url "https://www.airbnb.com/rooms/12345678" --raw
 - **Non-traditional listing types** — `--listing-type byOwner` for FSBO; `--listing-type byAgent` for agent-listed (default mix).
 - **Move-in date constraint** — `--move-in-date YYYY-MM-DD` for rental searches with a hard timing requirement.
 - **Bulk address verification** — pipe a list of property URLs through `zillow-property` to confirm they resolve and pull the canonical address Zillow uses.
-- **Airbnb price-arbitrage check** — same dates, same area, two `airbnb-listing` calls with different `--adults` counts to surface listings that don't scale per-person price. Sometimes the difference is the deal.
 - **Verify a Redfin/Zillow listing is real** — `redfin-property --url X --raw | jq .status` to confirm it hasn't been pulled.
-

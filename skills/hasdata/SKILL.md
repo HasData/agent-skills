@@ -1,6 +1,6 @@
 ---
 name: hasdata
-description: Use HasData to scrape any public web page, run real-time Google/Bing/Google-AI-Mode search queries, pull structured data from e-commerce, real-estate, jobs, maps, travel, and social platforms, or run async bulk-scraping and crawling jobs without managing proxies, browsers, or captchas. Reach for this skill when the user mentions web scraping, SERP/search results, Google Maps/Trends/Flights/Images, Amazon, Zillow, Redfin, Airbnb, Yelp, Indeed, Glassdoor, Instagram, Shopify, scraper jobs, website crawling, RAG/LLM data ingestion, lead/contact enrichment, or HasData itself.
+description: Use HasData to scrape any public web page, run real-time Google/Bing/Google-AI-Mode search queries, pull structured data from e-commerce, real-estate, lodging, jobs, maps, travel, video, and social platforms, or run async bulk-scraping and crawling jobs without managing proxies, browsers, or captchas. Reach for this skill when the user mentions web scraping, SERP/search results, Google Maps/Trends/Flights/Images, YouTube videos/transcripts/channels, Amazon, Zillow, Redfin, Airbnb, Booking.com hotels, Yelp, Indeed, Glassdoor, Instagram, Shopify, scraper jobs, website crawling, RAG/LLM data ingestion, lead/contact enrichment, or HasData itself.
 ---
 
 # HasData
@@ -66,9 +66,11 @@ See `references/code-recipes.md` for ready-to-paste Python and TypeScript client
 - [`references/web-scraping.md`](references/web-scraping.md) — `POST /scrape/web` parameters, JS scenarios, AI extraction, cookie auth.
 - [`references/search.md`](references/search.md) — Google SERP / Light / AI Mode / News / Shopping / Bing / Trends + pagination.
 - [`references/ecommerce.md`](references/ecommerce.md) — Amazon (product, search, seller, seller-products) and Shopify.
-- [`references/real-estate.md`](references/real-estate.md) — Zillow, Redfin, Airbnb (bracketed filters, token pagination).
-- [`references/local-business.md`](references/local-business.md) — Maps (search/place/reviews/photos), Yelp, YellowPages.
+- [`references/real-estate.md`](references/real-estate.md) — Zillow, Redfin (bracketed filters).
+- [`references/travel.md`](references/travel.md) — Airbnb, Booking, Google Flights (occupancy rules, token pagination, IATA codes).
+- [`references/local-business.md`](references/local-business.md) — Maps (search/place/reviews/photos/posts), Yelp, YellowPages.
 - [`references/jobs.md`](references/jobs.md) — Indeed and Glassdoor.
+- [`references/youtube.md`](references/youtube.md) — YouTube search / video / channel / transcript.
 - [`references/scraper-jobs.md`](references/scraper-jobs.md) — async submit/poll/results, Crawler, Contacts, SEC EDGAR, webhook receiver.
 - [`references/code-recipes.md`](references/code-recipes.md) — Python / TypeScript clients with retry, backoff, concurrency, polling.
 

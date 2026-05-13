@@ -1,4 +1,4 @@
-# Real Estate APIs — Zillow, Redfin, Airbnb
+# Real Estate APIs — Zillow, Redfin
 
 | Endpoint | Returns |
 |---|---|
@@ -6,10 +6,10 @@
 | `/scrape/zillow/property` | Single home (history, agent, schools, taxes) |
 | `/scrape/redfin/listing` | Redfin search results |
 | `/scrape/redfin/property` | Single Redfin home |
-| `/scrape/airbnb/listing` | Search results |
-| `/scrape/airbnb/property` | Single Airbnb listing |
 
-All synchronous `GET`.
+All synchronous `GET`. 5 credits each.
+
+For short-term rentals (Airbnb), hotels (Booking), and flights, see `travel.md`.
 
 ## Zillow Listing
 
@@ -67,39 +67,6 @@ params = {"url": "https://www.redfin.com/FL/Tamarac/9...html"}
 
 Same bracketed `price[min]`, `beds[min]`, etc. as Zillow. Zip codes work best for `keyword`.
 
-## Airbnb
-
-```python
-def airbnb_search(location, check_in, check_out, **kwargs):
-    return requests.get(
-        "https://api.hasdata.com/scrape/airbnb/listing",
-        headers={"x-api-key": API_KEY},
-        params={"location": location, "checkIn": check_in, "checkOut": check_out, **kwargs},
-        timeout=300,
-    ).json()
-```
-
-| Param | Notes |
-|---|---|
-| `location` | **Required.** Free-form. |
-| `checkIn` | **Required.** `YYYY-MM-DD`. |
-| `checkOut`, `adults`, `children`, `infants`, `pets` | Optional. |
-| `nextPageToken` | Pagination cursor. |
-
-### Token pagination
-
-```python
-def airbnb_all(location, check_in, check_out):
-    out, token = [], None
-    while True:
-        page = airbnb_search(location, check_in, check_out,
-                             **({"nextPageToken": token} if token else {}))
-        out.extend(page.get("listings", []))
-        token = page.get("nextPageToken")
-        if not token:
-            return out
-```
-
 ## Patterns
 
 ### Sold comps for ROI
@@ -109,20 +76,9 @@ sold = zillow_search(zip_code, "sold", daysOnZillow="6m").get("properties", [])
 ppsf = [(l["price"] / l["livingArea"]) for l in sold if l.get("livingArea")]
 ```
 
-### STR yield estimate
-
-```python
-rentals = airbnb_search(area, ci, co).get("listings", [])           # Airbnb → "listings"
-homes   = zillow_search(area, "forSale").get("properties", [])      # Zillow → "properties"
-night   = sum(r.get("price", 0) for r in rentals) / max(len(rentals), 1)
-price   = sum(h.get("price", 0) for h in homes)   / max(len(homes), 1)
-yield_  = (night * 365 * 0.65) / price if price else None  # 65% occupancy
-```
-
 ## Gotchas
 
 - **Bracketed query keys** — work with `requests`/`axios`, not raw `URLSearchParams`.
 - **`type=sold` + `daysOnZillow` = comps recipe.** Without `daysOnZillow`, history is unbounded.
-- **Airbnb requires `checkIn`** and uses **token** pagination — store `nextPageToken`, not page numbers.
 - **Property endpoints take URLs**, not IDs.
 - **Agent emails are best-effort.**

@@ -15,8 +15,9 @@ Pre-parsed JSON for Google, AI Mode, Bing, and the specialized Google panels. Sy
 | `/scrape/google/short-videos` | Short-video panel |
 | `/scrape/google/immersive-product` | Expanded product pop-up |
 | `/scrape/google-trends/search` | Trends + related queries |
-| `/scrape/google/flights` | Flight prices |
 | `/scrape/bing/serp` | Bing SERP |
+
+For `/scrape/google/flights`, see `travel.md`.
 
 ## Google SERP
 

@@ -1,6 +1,6 @@
 # HasData Agent Skills
 
-A collection of [agent skills](https://agentskills.io/) for working with [HasData](https://hasdata.com) — a cloud platform for extracting public web data via SERP APIs, pre-parsed Scraper APIs (Amazon, Zillow, Maps, Indeed, Instagram, …), and async Scraper Jobs (recursive crawling, contact enrichment, SEC filings).
+A collection of [agent skills](https://agentskills.io/) for working with [HasData](https://hasdata.com) — a cloud platform for extracting public web data via SERP APIs, pre-parsed Scraper APIs (Amazon, Zillow, Maps, Indeed, Instagram, YouTube, Booking, …), and async Scraper Jobs (recursive crawling, contact enrichment, SEC filings).
 
 These skills teach AI coding agents — Claude Code, Cursor, Codex, Gemini CLI, and any tool that loads `SKILL.md` files — how to call HasData from real code without guessing endpoints, parameter shapes, or response schemas.
 
@@ -8,7 +8,7 @@ These skills teach AI coding agents — Claude Code, Cursor, Codex, Gemini CLI, 
 
 | Skill | What it does |
 |---|---|
-| [`hasdata`](skills/hasdata) | Wire HasData APIs directly into your code (Python, TypeScript, Go). Covers `POST /scrape/web`, every Scraper API (Google SERP / AI Mode / Maps / Amazon / Zillow / Redfin / Airbnb / Yelp / YellowPages / Indeed / Glassdoor / Instagram / Shopify / Trends / Flights / Bing), and the async Scraper Job lifecycle (submit → poll → results, webhooks). Schemas verified against the live API. |
+| [`hasdata`](skills/hasdata) | Wire HasData APIs directly into your code (Python, TypeScript, Go). Covers `POST /scrape/web`, every Scraper API (Google SERP / AI Mode / Maps / Amazon / Zillow / Redfin / Airbnb / Booking / Yelp / YellowPages / Indeed / Glassdoor / Instagram / Shopify / YouTube / Trends / Flights / Bing), and the async Scraper Job lifecycle (submit → poll → results, webhooks). Schemas verified against the live API. |
 | [`hasdata-cli`](skills/hasdata-cli) | Use the [`hasdata` CLI](https://github.com/HasData/hasdata-cli) for real-time data lookups from the terminal — same APIs, but driven by `hasdata <subcommand> --flag value` and piped through `jq`. Best for one-off queries, shell pipelines, and CI jobs. |
 
 Pick `hasdata` when you're building an application or service that calls the API. Pick `hasdata-cli` when you're scripting in bash or want quick interactive lookups.
@@ -67,9 +67,11 @@ skills/
 │       ├── web-scraping.md   #   POST /scrape/web parameters, JS scenarios, AI extraction
 │       ├── search.md         #   Google SERP / AI Mode / News / Bing / Trends
 │       ├── ecommerce.md      #   Amazon, Shopify
-│       ├── real-estate.md    #   Zillow, Redfin, Airbnb
-│       ├── local-business.md #   Maps, Yelp, YellowPages
+│       ├── real-estate.md    #   Zillow, Redfin
+│       ├── travel.md         #   Airbnb, Booking, Google Flights
+│       ├── local-business.md #   Maps (incl. posts), Yelp, YellowPages
 │       ├── jobs.md           #   Indeed, Glassdoor
+│       ├── youtube.md        #   Search, video, channel, transcript
 │       ├── scraper-jobs.md   #   async submit/poll/results, webhooks, crawler, contacts, SEC
 │       └── code-recipes.md   #   Python / TypeScript clients, retry, backoff, polling
 └── hasdata-cli/
